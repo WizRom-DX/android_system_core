@@ -31,6 +31,15 @@ ALL_PREBUILT += $(copy_to)
 
 # files that live under /...
 
+# Motorola-specific init.rc
+ifeq ($(TARGET_USES_MOT_INIT),true)
+file := $(TARGET_ROOT_OUT)/init.rc
+$(file) : $(LOCAL_PATH)/mot.init.rc | $(ACP)
+        $(transform-prebuilt-to-target)
+ALL_PREBUILT += $(file)
+$(INSTALLED_RAMDISK_TARGET): $(file)
+endif
+
 # Only copy init.rc if the target doesn't have its own.
 ifneq ($(TARGET_PROVIDES_INIT_RC),true)
 file := $(TARGET_ROOT_OUT)/init.rc
